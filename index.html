@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b8f87" id="themeMeta">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>صحتي | Sahati</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-64.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<style>
+:root{--bg:#f2fbf9;--card:#fff;--ink:#14343a;--muted:#5d7a7f;--line:#d5ebe7;--brand:#0b8f87;--brand-d:#07645f;--brand-l:#d9f3ef;--on:#fff;
+--warn:#e4572e;--warn-l:#fde8e1;--ok:#2e9d5b;--ok-l:#def4e6;--amber-l:#fff1d1;--ok-t:#1d6b3d;--am-t:#8a5a00;--wa-t:#a63414;--inp:#fff;--pat:.14}
+:root[data-theme=dark]{--bg:#0d1a1c;--card:#15292c;--ink:#e6f2f1;--muted:#93b0b2;--line:#264245;--brand:#2bb7ad;--brand-d:#7fe0d8;--brand-l:#173a3c;--on:#04211f;
+--warn-l:#3b1f19;--ok-l:#173626;--amber-l:#3a2d10;--ok-t:#7fe3a6;--am-t:#f2c660;--wa-t:#ff9e85;--inp:#0f2023;--pat:.2}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}html.big{font-size:20px}
+body{margin:0;color:var(--ink);background-color:var(--bg);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",system-ui,-apple-system,Arial,sans-serif;line-height:1.55;padding-bottom:calc(72px + env(safe-area-inset-bottom,0px));
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cg fill='none' stroke='%230b8f87' stroke-opacity='.14' stroke-width='2.2' stroke-linecap='round'%3E%3Crect x='14' y='20' width='38' height='16' rx='8' transform='rotate(-35 33 28)'/%3E%3Ccircle cx='110' cy='34' r='10'/%3E%3Cpath d='M110 28v12M104 34h12'/%3E%3Cpath d='M96 108h20M106 98v20'/%3E%3Crect x='30' y='104' width='24' height='24' rx='5' transform='rotate(12 42 116)'/%3E%3Cpath d='M38 116h8M42 112v8' transform='rotate(12 42 116)'/%3E%3Cpath d='M130 130c8 0 14-6 14-14s-6-14-14-14'/%3E%3C/g%3E%3C/svg%3E");background-attachment:fixed}
+header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top,0px)) 12px 8px;background:color-mix(in srgb,var(--card) 93%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.logo{width:42px;height:42px;border-radius:12px;flex:none}
+header h1{font-size:1.2rem;margin:0;line-height:1.1}header small{color:var(--muted);font-size:.74rem}
+.spacer{flex:1}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 11px;font:inherit;font-size:.85rem;cursor:pointer;min-height:38px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:is(.chip,button,input,select,textarea):focus-visible{outline:3px solid #7fd6cf;outline-offset:2px}
+main{max-width:720px;margin:0 auto;padding:14px}
+h2{font-size:1.15rem;margin:18px 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:16px;padding:12px;margin-bottom:10px;font-size:.92rem}
+.banner.warn{background:var(--warn-l);border:1px solid var(--warn)}.banner.amber{background:var(--amber-l);border:1px solid #d9a93a}.banner.info{background:var(--brand-l);border:1px solid var(--brand)}
+.grow{flex:1}
+.dose{display:flex;align-items:center;gap:12px}
+.dose .time{font-weight:700;font-size:1.1rem;min-width:3.6em;color:var(--brand-d);direction:ltr;text-align:center}
+.dose .ic{font-size:1.6rem}.dose .info{flex:1;min-width:0}.dose .name{font-weight:700;overflow-wrap:anywhere}.sub{color:var(--muted);font-size:.85rem}
+.badge{border-radius:999px;padding:3px 10px;font-size:.8rem;font-weight:600;white-space:nowrap}
+.b-taken{background:var(--ok-l);color:var(--ok-t)}.b-skipped{background:var(--amber-l);color:var(--am-t)}.b-missed{background:var(--warn-l);color:var(--wa-t)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer}
+.btn{border:0;border-radius:14px;padding:11px 16px;font-weight:700;min-height:44px;background:var(--brand);color:var(--on)}
+.btn.sec{background:var(--brand-l);color:var(--brand-d)}.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn.red{background:var(--warn);color:#fff}.btn.ok{background:var(--ok);color:#fff}
+.btn.sm{padding:7px 12px;min-height:36px;font-size:.88rem;border-radius:12px}.btn.block{width:100%}
+label{display:block;font-weight:600;font-size:.9rem;margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--inp);color:var(--ink);min-height:44px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.days{display:flex;gap:6px;flex-wrap:wrap}
+.days label{display:flex;align-items:center;gap:4px;margin:0;font-weight:500;border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:var(--card)}
+.days input{width:auto;min-height:0}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.seg button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:9px 6px;min-height:42px}
+.seg button[aria-pressed=true]{background:var(--brand);color:var(--on);border-color:var(--brand)}
+nav{position:fixed;bottom:0;inset-inline:0;z-index:20;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;border:0;background:none;padding:6px 1px;color:var(--muted);font-size:.66rem;display:flex;flex-direction:column;align-items:center;min-height:58px;min-width:0}
+nav button span{font-size:1.3rem;line-height:1.25}
+nav button[aria-current=page]{color:var(--brand-d);font-weight:700;background:var(--brand-l)}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(10,30,34,.6);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.ring{text-align:center}.ring .big-ic{width:84px;height:84px;border-radius:20px;animation:wob 1s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@media (prefers-reduced-motion:reduce){.ring .big-ic{animation:none}}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stat div{background:var(--brand-l);border-radius:14px;padding:10px 4px}.stat b{display:block;font-size:1.4rem;color:var(--brand-d)}.stat span{font-size:.78rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}th,td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:start}
+.tablewrap{overflow-x:auto}.empty{text-align:center;color:var(--muted);padding:24px 10px}.e-ic{font-size:2.6rem}
+.thumb{width:56px;height:56px;border-radius:10px;object-fit:cover;border:1px solid var(--line)}
+.disc{font-size:.8rem;color:var(--muted);text-align:center;margin:16px 0}
+.toast{position:fixed;inset-inline:0;bottom:84px;margin:auto;width:max-content;max-width:90%;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;z-index:60;font-size:.9rem}
+.pid{display:grid;grid-template-columns:auto 1fr;gap:4px 12px}.pid dt{color:var(--muted)}.pid dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.streak{display:flex;align-items:center;gap:12px}.streak .n{font-size:2rem;font-weight:800;color:var(--brand-d)}
+.printhead{display:none}
+.blood{font-size:2.6rem;font-weight:800;color:var(--warn);text-align:center;direction:ltr}
+@media print{body{background:#fff;color:#000}header,nav,.noprint,.toast{display:none!important}.printhead{display:block;text-align:center;font-size:1.3rem;font-weight:700;margin-bottom:8px}.card{break-inside:avoid;border-color:#999}}
+</style>
+</head>
+<body>
+<header>
+  <img class="logo" src="icons/logo.png" alt="">
+  <div><h1 id="appname">صحتي</h1><small id="tagline"></small></div>
+  <div class="spacer"></div>
+  <button class="chip" id="patBtn"></button>
+  <button class="chip" id="emBtn" aria-label="SOS">🚨</button>
+  <button class="chip" id="setBtn" aria-label="Settings">⚙️</button>
+</header>
+<main id="view"></main>
+<nav id="nav"></nav>
+<div id="modalRoot"></div>
+<datalist id="drugs"></datalist>
+
+<script>
+/* ================= i18n: [ar, fr, en] ================= */
+const LI={ar:0,fr:1,en:2};
+const T={
+tag:["منظّم أدويتك","Votre pilulier intelligent","Your medication planner"],
+today:["اليوم","Aujourd’hui","Today"],meds:["أدويتي","Médicaments","Meds"],vitals:["المؤشرات","Mesures","Vitals"],appts:["المواعيد","RDV","Visits"],profile:["الملف","Profil","Profile"],report:["التقرير","Rapport","Report"],
+nextDoses:["جرعات اليوم","Prises du jour","Today’s doses"],
+noDoses:["لا توجد جرعات اليوم. أضف دواءً لبدء التذكير.","Aucune prise aujourd’hui. Ajoutez un médicament.","No doses today. Add a medicine to start reminders."],
+addMed:["إضافة دواء","Ajouter un médicament","Add medicine"],editMed:["تعديل الدواء","Modifier","Edit medicine"],
+taken:["تم أخذه","Pris","Taken"],skip:["تخطي","Ignorer","Skip"],snooze:["تأجيل 10 د","Reporter 10 min","Snooze 10 min"],
+skipped:["تم التخطي","Ignoré","Skipped"],missed:["فاتت","Oublié","Missed"],takenS:["تم","Pris","Done"],
+medName:["اسم الدواء","Nom du médicament","Medicine name"],dose:["الجرعة (مثال: قرص، 5 مل)","Dose (ex. 1 comprimé, 5 ml)","Dose (e.g. 1 tablet, 5 ml)"],
+meal:["العلاقة بالأكل","Rapport au repas","With food"],mealNone:["لا يهم","Indifférent","Any time"],mealBefore:["قبل الأكل","Avant le repas","Before meal"],mealAfter:["بعد الأكل","Après le repas","After meal"],
+mode:["نمط الجرعات","Type de prise","Schedule type"],mDaily:["بمواعيد ثابتة","Horaires fixes","Fixed times"],mPrn:["عند الحاجة","Au besoin","As needed"],
+freq:["عدد المرات يوميًا","Fois par jour","Times per day"],f1:["مرة (كل 24 ساعة)","1 fois (24 h)","Once (24 h)"],f2:["مرتان (كل 12 ساعة)","2 fois (12 h)","Twice (12 h)"],f3:["3 مرات (كل 8 ساعات)","3 fois (8 h)","3 times (8 h)"],f4:["4 مرات (كل 6 ساعات)","4 fois (6 h)","4 times (6 h)"],
+firstTime:["وقت الجرعة الأولى","Première prise","First dose time"],days:["الأيام","Jours","Days"],
+every:["كل كم يوم (1 = يوميًا)","Tous les X jours (1 = chaque jour)","Every X days (1 = daily)"],dur:["مدة العلاج بالأيام (0 = مستمر)","Durée en jours (0 = continu)","Course length in days (0 = ongoing)"],
+start:["تاريخ البدء","Date de début","Start date"],stock:["الكمية المتبقية (اختياري)","Quantité restante (facultatif)","Stock left (optional)"],low:["نبّهني عند بقاء","Prévenir à","Alert at"],
+notes:["ملاحظات","Remarques","Notes"],photo:["📷 تصوير الوصفة / العلبة","📷 Photo ordonnance / boîte","📷 Photo of prescription / box"],
+scan:["🔍 استخراج اسم الدواء من الصورة (OCR)","🔍 Lire le nom sur la photo (OCR)","🔍 Read medicine name from photo (OCR)"],
+scanning:["جارٍ قراءة الصورة… (يحتاج إنترنت)","Lecture en cours… (internet requis)","Reading image… (needs internet)"],
+scanFound:["أدوية وُجدت — اضغط لاختيار:","Médicaments trouvés — touchez pour choisir :","Found — tap to choose:"],
+scanNone:["لم يُعثر على اسم معروف. اكتبه يدويًا.","Aucun nom connu trouvé. Saisissez-le.","No known name found. Type it manually."],scanErr:["تعذّرت القراءة (تحقق من الإنترنت)","Lecture impossible (vérifiez internet)","Could not read (check internet)"],
+save:["حفظ","Enregistrer","Save"],cancel:["إلغاء","Annuler","Cancel"],del:["حذف","Supprimer","Delete"],confirmDel:["هل أنت متأكد من الحذف؟","Confirmer la suppression ?","Delete this?"],
+medsEmpty:["لم تضف أي دواء بعد.","Aucun médicament.","No medicines yet."],left:["متبقي","restant","left"],
+lowStock:["قاربت الكمية على النفاد:","Stock bientôt épuisé :","Running low:"],
+ringTitle:["حان وقت الدواء","C’est l’heure du médicament","Time for your medicine"],nowTaking:["اضغط «تم أخذه» بعد تناول الدواء","Appuyez sur « Pris » après la prise","Tap “Taken” after taking it"],
+familyMiss:["فاتت جرعة. إبلاغ العائلة؟","Prise oubliée. Prévenir un proche ?","Dose missed. Notify family?"],notifyFamily:["إبلاغ العائلة","Prévenir","Notify family"],
+noFamily:["أضف رقم أحد أفراد العائلة في «الملف» أولًا.","Ajoutez d’abord un numéro dans « Profil ».","Add a family number in Profile first."],
+notifOn:["فعّل الإشعارات للتذكير","Activez les notifications","Enable notifications"],enable:["تفعيل","Activer","Enable"],
+notifNote:["ثبّت التطبيق على الشاشة الرئيسية لأفضل نتيجة.","Installez l’appli sur l’écran d’accueil.","Install the app on your home screen for best results."],
+pName:["الاسم الكامل","Nom complet","Full name"],pAge:["السن","Âge","Age"],pWeight:["الوزن (كغ)","Poids (kg)","Weight (kg)"],pBlood:["زمرة الدم","Groupe sanguin","Blood type"],
+pAllergy:["الحساسية / أمراض مزمنة","Allergies / maladies chroniques","Allergies / chronic conditions"],pFam:["اسم أحد أفراد العائلة","Nom d’un proche","Family contact name"],
+pFamPhone:["هاتفه (مع رمز الدولة 213…)","Téléphone (avec indicatif 213…)","Phone (with country code 213…)"],
+saved:["تم الحفظ","Enregistré","Saved"],unknown:["غير محدد","Non renseigné","Not set"],years:["سنة","ans","yrs"],kg:["كغ","kg","kg"],
+adherence:["نسبة الالتزام (7 أيام)","Observance (7 jours)","Adherence (7 days)"],tTaken:["مأخوذة","Prises","Taken"],tSkipped:["متخطاة","Ignorées","Skipped"],tMissed:["فائتة","Oubliées","Missed"],
+history:["سجل الجرعات","Historique","Dose history"],date:["التاريخ","Date","Date"],med:["الدواء","Médicament","Medicine"],status:["الحالة","Statut","Status"],noHistory:["لا يوجد سجل.","Aucun historique.","No history."],
+print:["🖨️ طباعة / PDF للطبيب","🖨️ Imprimer / PDF médecin","🖨️ Print / PDF for doctor"],pharmacy:["🏥 صيدليات قريبة","🏥 Pharmacies proches","🏥 Nearby pharmacies"],
+interact:["تنبيه: تعارض محتمل بين الأدوية","Attention : interaction possible","Warning: possible drug interaction"],
+interactNote:["قائمة محدودة وليست شاملة. استشر الطبيب أو الصيدلي.","Liste non exhaustive. Consultez médecin/pharmacien.","Not exhaustive. Ask your doctor or pharmacist."],
+disc:["صحتي أداة تنظيم وليست بديلًا عن الطبيب. لا تغيّر جرعتك دون استشارته.","Sahati organise vos prises, sans remplacer un médecin. Ne changez pas votre dose sans avis médical.","Sahati is an organiser, not medical advice. Never change your dose without your doctor."],
+reportTitle:["تقرير الالتزام الدوائي","Rapport d’observance","Medication adherence report"],patientInfo:["بيانات المريض","Informations du patient","Patient information"],currentMeds:["الأدوية الحالية","Traitements en cours","Current medicines"],
+d:[["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"],["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]],
+allDays:["كل يوم","Tous les jours","Every day"],prn:["عند الحاجة","Au besoin","As needed"],takeNow:["أخذته الآن","Pris maintenant","Take now"],
+everyN:["كل {n} أيام","tous les {n} jours","every {n} days"],forN:["لمدة {n} يومًا","pendant {n} jours","for {n} days"],
+streak:["أيام متتالية من الالتزام","jours consécutifs d’observance","day adherence streak"],b3:["برونزية","Bronze","Bronze"],b7:["فضية","Argent","Silver"],b30:["ذهبية","Or","Gold"],
+share:["📤 مشاركة حالة اليوم","📤 Partager le point du jour","📤 Share today’s status"],
+settings:["الإعدادات","Réglages","Settings"],language:["اللغة","Langue","Language"],bigText:["خط كبير","Grand texte","Large text"],
+theme:["المظهر","Thème","Theme"],tAuto:["تلقائي","Auto","Auto"],tLight:["فاتح","Clair","Light"],tDark:["داكن","Sombre","Dark"],
+tone:["نغمة التنبيه","Sonnerie","Alarm tone"],tBell:["جرس","Cloche","Bell"],tDigital:["رقمي","Digital","Digital"],tMelody:["لحن","Mélodie","Melody"],
+voice:["قراءة اسم الدواء بصوت عالٍ","Lire le nom à voix haute","Read medicine name aloud"],test:["تجربة الصوت","Tester","Test sound"],
+backup:["النسخ الاحتياطي","Sauvegarde","Backup"],export:["⬇️ تصدير البيانات","⬇️ Exporter","⬇️ Export data"],import:["⬆️ استيراد نسخة","⬆️ Importer","⬆️ Import backup"],
+importOk:["تم استيراد البيانات","Données importées","Data imported"],importBad:["ملف غير صالح","Fichier invalide","Invalid file"],importAsk:["سيستبدل هذا بياناتك الحالية. متابعة؟","Remplacera vos données actuelles. Continuer ?","This replaces your current data. Continue?"],
+install:["📲 تثبيت التطبيق","📲 Installer l’appli","📲 Install app"],installIos:["على آيفون: زر المشاركة ← إضافة إلى الشاشة الرئيسية","iPhone : Partager → Sur l’écran d’accueil","iPhone: Share → Add to Home Screen"],
+emergency:["بطاقة الطوارئ","Carte d’urgence","Emergency card"],saveImg:["🖼️ حفظ كصورة (لشاشة القفل)","🖼️ Enregistrer en image (écran verrouillé)","🖼️ Save as image (lock screen)"],call:["📞 اتصال بالعائلة","📞 Appeler un proche","📞 Call family"],
+patients:["المرضى","Patients","Patients"],addPatient:["＋ مريض جديد","＋ Nouveau patient","＋ New patient"],newPatient:["مريض جديد","Nouveau patient","New patient"],delPatient:["حذف هذا المريض وبياناته","Supprimer ce patient","Delete this patient"],
+vBp:["🩸 الضغط","🩸 Tension","🩸 BP"],vSugar:["🍬 السكر","🍬 Glycémie","🍬 Sugar"],vWeight:["⚖️ الوزن","⚖️ Poids","⚖️ Weight"],
+vSys:["الانقباضي","Systolique","Systolic"],vDia:["الانبساطي","Diastolique","Diastolic"],vSugarU:["السكر (mg/dL)","Glycémie (mg/dL)","Sugar (mg/dL)"],vWeightU:["الوزن (كغ)","Poids (kg)","Weight (kg)"],
+addReading:["إضافة قراءة","Ajouter","Add reading"],noReadings:["لا توجد قراءات بعد.","Aucune mesure.","No readings yet."],latest:["آخر القراءات","Dernières mesures","Latest readings"],
+aTitle:["العنوان (طبيب، تحليل…)","Titre (médecin, analyse…)","Title (doctor, lab…)"],aDoctor:["موعد طبيب","Médecin","Doctor"],aLab:["تحاليل","Analyses","Lab test"],aKind:["النوع","Type","Type"],
+aDate:["التاريخ","Date","Date"],aTime:["الساعة","Heure","Time"],aPlace:["المكان","Lieu","Place"],aRemind:["التذكير قبل","Rappel avant","Remind before"],
+r1h:["ساعة","1 heure","1 hour"],r3h:["3 ساعات","3 heures","3 hours"],r1d:["يوم","1 jour","1 day"],addAppt:["إضافة موعد","Ajouter un RDV","Add appointment"],
+noAppts:["لا توجد مواعيد.","Aucun rendez-vous.","No appointments."],apptSoon:["موعد قريب:","RDV proche :","Upcoming:"],upcoming:["القادمة","À venir","Upcoming"],past:["السابقة","Passés","Past"],
+summary:["ملخص اليوم","Point du jour","Today’s summary"],pendingW:["متبقية","restantes","pending"],
+sosHint:["للطوارئ","En cas d’urgence","In an emergency"]
+};
+const FAM={ar:(n,m,tm)=>`تنبيه من صحتي: ${n||'المريض'} لم يأخذ "${m}" في موعده (${tm}). يرجى الاطمئنان عليه.`,
+ fr:(n,m,tm)=>`Alerte Sahati : ${n||'Le patient'} n’a pas pris « ${m} » à ${tm}. Merci de prendre de ses nouvelles.`,
+ en:(n,m,tm)=>`Sahati alert: ${n||'The patient'} has not taken "${m}" at ${tm}. Please check in.`};
+const VOICE={ar:['ar-SA','حان وقت دواء'],fr:['fr-FR','C’est l’heure de'],en:['en-US','Time for']};
+
+/* ================= drug database + interactions ================= */
+const DB=("paracetamol;;paracetamol|paracétamol|doliprane|efferalgan|panadol|باراسيتامول|بنادول,ibuprofen;nsaid;ibuprofen|ibuprofène|advil|brufen|nurofen|إيبوبروفين|بروفين,diclofenac;nsaid;diclofenac|diclofénac|voltaren|ديكلوفيناك|فولتارين,naproxen;nsaid;naproxen|naproxène|نابروكسين,ketoprofen;nsaid;ketoprofen|kétoprofène|كيتوبروفين,aspirin;;aspirin|aspirine|aspegic|أسبيرين|اسبرين,amoxicillin;;amoxicillin|amoxicilline|clamoxyl|أموكسيسيلين,augmentin;;augmentin|amoxicillin clavulanate|أوغمنتين,azithromycin;;azithromycin|azithromycine|زيثروماكس|أزيثروميسين,clarithromycin;;clarithromycin|clarithromycine|كلاريثروميسين,ciprofloxacin;;ciprofloxacin|ciprofloxacine|سيبروفلوكساسين,metronidazole;;metronidazole|flagyl|ميترونيدازول,fluconazole;;fluconazole|fluconazole|فلوكونازول,omeprazole;;omeprazole|oméprazole|mopral|أوميبرازول,pantoprazole;;pantoprazole|pantoprazole|بانتوبرازول,metformin;;metformin|metformine|glucophage|ميتفورمين,gliclazide;;gliclazide|diamicron|جليكلازيد,insulin;;insulin|insuline|أنسولين|انسولين,atorvastatin;statin;atorvastatin|atorvastatine|أتورفاستاتين,simvastatin;statin;simvastatin|simvastatine|سيمفاستاتين,rosuvastatin;statin;rosuvastatin|rosuvastatine|روزوفاستاتين,amlodipine;;amlodipine|amlor|أملوديبين,lisinopril;acei;lisinopril|ليسينوبريل,enalapril;acei;enalapril|énalapril|إينالابريل,ramipril;acei;ramipril|triatec|راميبريل,perindopril;acei;perindopril|coversyl|بيريندوبريل,losartan;;losartan|lorzaar|لوسارتان,valsartan;;valsartan|tareg|فالسارتان,bisoprolol;;bisoprolol|cardensiel|بيسوبرولول,atenolol;;atenolol|aténolol|أتينولول,furosemide;;furosemide|furosémide|lasilix|فوروسيميد,spironolactone;;spironolactone|aldactone|سبيرونولاكتون,hydrochlorothiazide;;hydrochlorothiazide|hydrochlorothiazide|هيدروكلوروثيازيد,warfarin;;warfarin|warfarine|coumadine|وارفارين,clopidogrel;;clopidogrel|plavix|كلوبيدوغريل|كلوبيدوجريل,digoxin;;digoxin|digoxine|ديجوكسين,amiodarone;;amiodarone|cordarone|أميودارون,levothyroxine;;levothyroxine|lévothyrox|levothyrox|ليفوثيروكسين,prednisone;;prednisone|prednisolone|cortancyl|بريدنيزون,cetirizine;;cetirizine|cétirizine|zyrtec|سيتيريزين,loratadine;;loratadine|clarityne|لوراتادين,salbutamol;;salbutamol|ventoline|سالبوتامول|فنتولين,montelukast;;montelukast|singulair|مونتيلukast,sertraline;;sertraline|zoloft|سيرترالين,tramadol;;tramadol|topalgic|ترامادول,sildenafil;;sildenafil|viagra|سيلدينافيل|فياجرا,nitroglycerin;nitrate;nitroglycerin|trinitrine|نيتروجليسرين,isosorbide;nitrate;isosorbide|isosorbide dinitrate|إيزوسوربيد,methotrexate;;methotrexate|méthotrexate|ميثوتريكسات,vitamin d;;vitamin d|vitamine d|uvedose|فيتامين د,vitamin c;;vitamin c|vitamine c|فيتامين سي,iron;;iron sulfate|fer|tardyferon|حديد,calcium;;calcium|كالسيوم,magnesium;;magnesium|magnésium|مغنيسيوم,folic acid;;folic acid|acide folique|حمض الفوليك").split(',').map(s=>{const [id,g,al]=s.split(';');return{id,g:g?[g]:[],al:al.split('|')}});
+const RULES=[
+['warfarin','nsaid',3,['خطر نزيف شديد','risque hémorragique grave','serious bleeding risk']],
+['warfarin','aspirin',3,['خطر نزيف شديد','risque hémorragique grave','serious bleeding risk']],
+['warfarin','fluconazole',3,['يرفع خطر النزيف','augmente le risque de saignement','raises bleeding risk']],
+['aspirin','nsaid',2,['نزيف المعدة وضعف حماية القلب','saignement digestif','stomach bleeding, weaker heart protection']],
+['clopidogrel','omeprazole',2,['يضعف فعالية كلوبيدوغريل','réduit l’effet du clopidogrel','weakens clopidogrel']],
+['sildenafil','nitrate',3,['هبوط حاد في الضغط — خطر','chute de tension grave','dangerous blood-pressure drop']],
+['statin','clarithromycin',2,['خطر تلف العضلات','atteinte musculaire','muscle damage risk']],
+['acei','spironolactone',2,['ارتفاع البوتاسيوم','hyperkaliémie','high potassium']],
+['acei','nsaid',2,['قد يضر الكلى ويضعف الدواء','risque rénal','kidney risk, weaker effect']],
+['tramadol','sertraline',3,['متلازمة السيروتونين','syndrome sérotoninergique','serotonin syndrome']],
+['methotrexate','nsaid',3,['يرفع سمّية الميثوتريكسات','toxicité du méthotrexate','raises methotrexate toxicity']],
+['digoxin','amiodarone',3,['ارتفاع مستوى الديجوكسين','augmente la digoxine','raises digoxin level']]];
+function drugsOf(name){const n=name.toLowerCase();return DB.filter(d=>d.al.some(a=>a.length>=4&&n.includes(a)))}
+function findInteractions(meds){
+  const info=meds.map(m=>({m,ds:drugsOf(m.name)})),out=[],seen=new Set();
+  const has=(x,k)=>x.ds.some(d=>d.id===k||d.g.includes(k));
+  RULES.forEach(([a,b,sev,msg])=>info.forEach(x=>info.forEach(y=>{
+    if(x===y||!has(x,a)||!has(y,b))return;const key=[x.m.id,y.m.id].sort().join()+a+b;if(seen.has(key))return;seen.add(key);
+    out.push({a:x.m.name,b:y.m.name,sev,msg});})));
+  return out;
+}
+
+/* ================= state ================= */
+const LS='sahati_v1';
+const DEF={lang:'ar',big:false,theme:'auto',tone:'bell',voice:true,patients:[],cur:'',meds:[],log:{},alerts:[],vitals:[],appts:[]};
+let S;try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem(LS)||'{}'))}catch(e){S=Object.assign({},DEF)}
+(function migrate(){
+  if(!S.patients.length){const p=Object.assign({},S.profile||{});p.id='p1';S.patients=[p];S.cur='p1';S.meds.forEach(m=>m.pid=m.pid||'p1');delete S.profile}
+  if(!S.patients.find(p=>p.id===S.cur))S.cur=S.patients[0].id;
+  S.meds.forEach(m=>{m.pid=m.pid||S.patients[0].id;m.mode=m.mode||'daily';m.every=m.every||1;m.dur=m.dur||0});
+})();
+const t=k=>{const v=T[k][LI[S.lang]];return v};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const p2=n=>String(n).padStart(2,'0');
+const ymd=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+const toMin=s=>{const [h,m]=s.split(':').map(Number);return h*60+m};
+const P=()=>S.patients.find(p=>p.id===S.cur);
+const myMeds=()=>S.meds.filter(m=>m.pid===S.cur);
+const patOf=m=>S.patients.find(p=>p.id===m.pid)||{};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+let tab='today',vt='bp',snooze={},ringing=null,audioTimer=null,beeps=0,actx=null,pst,deferred=null;
+function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){toast('Storage full')}pushSchedule()}
+
+/* ================= schedule logic ================= */
+function activeOn(m,date){
+  if(m.mode==='prn')return false;
+  const ds=ymd(date),st=m.start||ds;if(ds<st)return false;
+  const diff=Math.round((new Date(ds)-new Date(st))/864e5);
+  if(m.dur&&diff>=m.dur)return false;
+  if(m.every>1&&diff%m.every!==0)return false;
+  if(m.days&&m.days.length&&!m.days.includes(date.getDay()))return false;
+  return true;
+}
+function dosesFor(date,all){
+  const out=[];(all?S.meds:myMeds()).forEach(m=>{if(activeOn(m,date))m.times.forEach(tm=>out.push({med:m,time:tm}))});
+  return out.sort((a,b)=>a.time.localeCompare(b.time));
+}
+const keyOf=(d,dose)=>d+'|'+dose.med.id+'|'+dose.time;
+function setStatus(k,s){
+  const prev=S.log[k];S.log[k]={s,ts:Date.now()};
+  const m=S.meds.find(x=>x.id===k.split('|')[1]);
+  if(s==='taken'&&m&&m.stock!==''&&m.stock!=null&&(!prev||prev.s!=='taken'))m.stock=Math.max(0,Number(m.stock)-1);
+  save();
+}
+function tick(){
+  const now=new Date(),d=ymd(now),mins=now.getHours()*60+now.getMinutes();let ch=false;
+  for(const dose of dosesFor(now,true)){
+    const k=keyOf(d,dose);if(S.log[k])continue;const dm=toMin(dose.time);
+    if(mins-dm>=60){S.log[k]={s:'missed',ts:Date.now()};S.alerts.push(k);ch=true;if(ringing&&ringing.k===k)closeRing()}
+    else if(mins>=dm&&!ringing&&!((snooze[k]||0)>Date.now()))ring(dose,k);
+  }
+  S.appts.forEach(a=>{
+    if(a.notified)return;const at=new Date(a.date+'T'+a.time).getTime(),n=Date.now();
+    if(n>=at-a.remind*60000&&n<at+3*3600e3){a.notified=true;ch=true;beep();notify('📅 '+a.title,(a.place||'')+' '+a.time,'a'+a.id);toast('📅 '+a.title+' — '+a.time)}
+  });
+  if(ch){save();render()}
+}
+setInterval(tick,15000);
+let pstT;function pushSchedule(){clearTimeout(pst);pst=setTimeout(()=>{
+  const LN=nativeLN();if(!LN&&(!navigator.serviceWorker||!navigator.serviceWorker.controller))return;
+  const items=[],now=new Date();
+  for(let i=0;i<(LN?7:2);i++){const dt=new Date(now);dt.setDate(now.getDate()+i);const d=ymd(dt);
+    dosesFor(dt,true).forEach(ds=>{const k=keyOf(d,ds);if(S.log[k])return;const [h,m]=ds.time.split(':');
+      items.push({id:k,at:new Date(dt.getFullYear(),dt.getMonth(),dt.getDate(),+h,+m).getTime(),title:'💊 '+t('ringTitle'),body:ds.med.name+(ds.med.dose?' — '+ds.med.dose:'')})})}
+  S.appts.forEach(a=>{if(!a.notified)items.push({id:'a'+a.id,at:new Date(a.date+'T'+a.time).getTime()-a.remind*60000,title:'📅 '+a.title,body:(a.place||'')+' '+a.time})});
+  if(LN)return scheduleNative(LN,items);navigator.serviceWorker.controller.postMessage({type:'sched',items})},400)}
+
+/* native Android (Capacitor): alarms scheduled by the OS, work with app closed */
+function nativeLN(){const C=window.Capacitor;return !!(C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.LocalNotifications)&&C.Plugins.LocalNotifications}
+const nid=x=>{let h=0;for(const c of String(x))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)%2147483000+1};
+async function scheduleNative(LN,items){
+  try{
+    const pend=await LN.getPending();
+    if(pend.notifications&&pend.notifications.length)await LN.cancel({notifications:pend.notifications.map(n=>({id:n.id}))});
+    const now=Date.now(),list=items.filter(i=>i.at>now).slice(0,300).map(i=>({id:nid(i.id),title:i.title,body:i.body,channelId:'meds',schedule:{at:new Date(i.at),allowWhileIdle:true}}));
+    if(list.length)await LN.schedule({notifications:list});
+  }catch(e){}
+}
+async function initNative(){
+  const LN=nativeLN();if(!LN)return;
+  try{
+    await LN.requestPermissions();
+    await LN.createChannel({id:'meds',name:'Medication reminders',importance:5,visibility:1,vibration:true,lights:true});
+    const ex=await LN.checkExactNotificationSetting();
+    if(ex&&ex.exact_alarm==='denied')await LN.changeExactNotificationSetting();
+  }catch(e){}
+  pushSchedule();
+}
+
+/* streak: consecutive days with all doses taken */
+function streak(){
+  let n=0;const now=new Date();
+  for(let i=0;i<120;i++){const dt=new Date(now);dt.setDate(now.getDate()-i);const ds=ymd(dt),dz=dosesFor(dt,false);
+    if(!dz.length)continue;
+    const st=dz.map(x=>(S.log[keyOf(ds,x)]||{}).s);
+    if(st.every(s=>s==='taken')){n++;continue}
+    if(i===0&&st.every(s=>!s||s==='taken')&&!st.some(s=>s==='skipped'))continue;
+    break;
+  }
+  return n;
+}
+
+/* ================= sound / voice / notifications ================= */
+const TONES={bell:[[880,0,.22,'sine'],[1175,.25,.22,'sine'],[880,.5,.22,'sine']],digital:[[1000,0,.12,'square'],[1000,.2,.12,'square'],[1000,.4,.12,'square'],[1000,.6,.12,'square']],melody:[[523,0,.2,'triangle'],[659,.22,.2,'triangle'],[784,.44,.2,'triangle'],[1047,.66,.4,'triangle']]};
+function beep(){
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();
+    (TONES[S.tone]||TONES.bell).forEach(([f,o,dur,w])=>{const os=actx.createOscillator(),g=actx.createGain();os.type=w;os.frequency.value=f;
+      const t0=actx.currentTime+o,vol=w==='square'?.12:.4;g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(vol,t0+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+dur);
+      os.connect(g).connect(actx.destination);os.start(t0);os.stop(t0+dur+.05)})}catch(e){}
+  if(navigator.vibrate)navigator.vibrate([300,150,300]);
+}
+function speak(txt){try{if(!S.voice||!window.speechSynthesis)return;const u=new SpeechSynthesisUtterance(txt);u.lang=VOICE[S.lang][0];speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function notify(title,body,tag){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  const o={body,tag,icon:'icons/icon-192.png',requireInteraction:true,vibrate:[300,150,300]};
+  if(navigator.serviceWorker&&navigator.serviceWorker.ready)navigator.serviceWorker.ready.then(r=>r.showNotification(title,o)).catch(()=>{try{new Notification(title,o)}catch(e){}});
+  else try{new Notification(title,o)}catch(e){}
+}
+function ring(dose,k){
+  ringing={dose,k};beeps=0;
+  const m=dose.med,who=S.patients.length>1?patOf(m).name||'':'';
+  const loop=()=>{beep();if(beeps%3===0)speak(VOICE[S.lang][1]+' '+m.name);beeps++};loop();audioTimer=setInterval(loop,3500);
+  notify('💊 '+t('ringTitle'),m.name+(m.dose?' — '+m.dose:'')+' ('+dose.time+')',k);
+  openModal(`<div class="ring"><img class="big-ic" src="icons/logo.png" alt="">
+    <h2 style="margin-top:8px">${t('ringTitle')}</h2>
+    ${who?`<div class="sub">👤 ${esc(who)}</div>`:''}
+    <p style="font-size:1.3rem;font-weight:700;margin:4px 0">${esc(m.name)}</p>
+    <p style="margin:0;color:var(--muted)">${esc(m.dose||'')} ${mealTxt(m.meal)?'· '+mealTxt(m.meal):''} · <span dir="ltr">${dose.time}</span></p>
+    <p class="sub">${t('nowTaking')}</p>
+    <div style="display:grid;gap:8px;margin-top:12px"><button class="btn ok block" id="rTaken">✅ ${t('taken')}</button>
+    <div class="row2"><button class="btn sec" id="rSnooze">⏰ ${t('snooze')}</button><button class="btn ghost" id="rSkip">⏭ ${t('skip')}</button></div></div></div>`,true);
+  $('#rTaken').onclick=()=>{setStatus(k,'taken');closeRing();render();lowToast(m)};
+  $('#rSnooze').onclick=()=>{snooze[k]=Date.now()+10*60000;closeRing()};
+  $('#rSkip').onclick=()=>{setStatus(k,'skipped');closeRing();render()};
+}
+function closeRing(){ringing=null;clearInterval(audioTimer);try{speechSynthesis.cancel()}catch(e){}closeModal()}
+const isLow=m=>m.stock!==''&&m.stock!=null&&Number(m.stock)<=Number(m.low||5);
+function lowToast(m){if(isLow(m))toast('⚠️ '+t('lowStock')+' '+m.name)}
+
+/* ================= helpers ================= */
+const mealTxt=v=>v==='before'?t('mealBefore'):v==='after'?t('mealAfter'):'';
+function toast(msg){const e=document.createElement('div');e.className='toast';e.textContent=msg;document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}
+function openModal(html,lock){$('#modalRoot').innerHTML=`<div class="modal" id="mod"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
+  if(!lock)$('#mod').addEventListener('click',e=>{if(e.target.id==='mod')closeModal()})}
+const closeModal=()=>{$('#modalRoot').innerHTML=''};
+const badge=s=>`<span class="badge b-${s}">${s==='taken'?t('takenS'):s==='skipped'?t('skipped'):t('missed')}</span>`;
+function applyTheme(){
+  const th=S.theme==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):S.theme;
+  document.documentElement.dataset.theme=th;$('#themeMeta').content=th==='dark'?'#0d1a1c':'#0b8f87';
+}
+const down=(name,blob)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)};
+function chartSvg(series,colors){
+  const all=series.flat();if(!all.length)return'';const W=320,H=120,pd=26;let mn=Math.min(...all),mx=Math.max(...all);if(mn===mx){mn-=1;mx+=1}
+  const n=series[0].length,x=i=>pd+(n===1?(W-2*pd)/2:i*(W-2*pd)/(n-1)),y=v=>H-pd+4-(v-mn)/(mx-mn)*(H-2*pd);
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" style="direction:ltr"><text x="2" y="${y(mx)+4}" font-size="10" fill="var(--muted)">${mx}</text><text x="2" y="${y(mn)+4}" font-size="10" fill="var(--muted)">${mn}</text>`;
+  series.forEach((a,si)=>{s+=`<polyline fill="none" stroke="${colors[si]}" stroke-width="2.5" points="${a.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>`+a.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3.5" fill="${colors[si]}"/>`).join('')});
+  return s+'</svg>';
+}
+const vitalsOf=ty=>S.vitals.filter(v=>v.pid===S.cur&&v.type===ty).sort((a,b)=>a.ts-b.ts);
+const vTxt=v=>v.type==='bp'?v.a+'/'+v.b:v.type==='sugar'?v.a+' mg/dL':v.a+' kg';
+const fmtD=ts=>{const d=new Date(ts);return ymd(d)+' '+p2(d.getHours())+':'+p2(d.getMinutes())};
+const patLabel=()=>{const n=(P().name||'').trim();return n?n.split(' ')[0]:'👤'};
+
+/* ================= views ================= */
+function render(){
+  const L=S.lang;applyTheme();
+  document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';document.documentElement.classList.toggle('big',!!S.big);
+  $('#appname').textContent=L==='ar'?'صحتي':'Sahati';$('#tagline').textContent=t('tag');$('#patBtn').textContent='👤 '+patLabel();
+  $('#drugs').innerHTML=DB.map(d=>d.al.slice(0,3).map(a=>`<option value="${esc(a)}">`).join('')).join('');
+  const tabs=[['today','🗓️'],['meds','💊'],['vitals','📈'],['appts','📅'],['profile','🩺'],['report','📋']];
+  $('#nav').innerHTML=tabs.map(([k,i])=>`<button data-tab="${k}" ${tab===k?'aria-current="page"':''}><span>${i}</span>${t(k)}</button>`).join('');
+  $('#nav').querySelectorAll('button').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render();scrollTo(0,0)});
+  $('#view').innerHTML=({today:vToday,meds:vMeds,vitals:vVitals,appts:vAppts,profile:vProfile,report:vReport})[tab]()+`<p class="disc">${t('disc')}</p>`;
+  bind();
+}
+
+function vToday(){
+  const now=new Date(),d=ymd(now);let h='';
+  if('Notification' in window&&Notification.permission==='default')
+    h+=`<div class="banner info"><span>🔔</span><div class="grow">${t('notifOn')}<br><small>${t('notifNote')}</small></div><button class="btn sm" id="notifBtn">${t('enable')}</button></div>`;
+  S.alerts.forEach((k,i)=>{const [,id,tm]=k.split('|'),m=S.meds.find(x=>x.id===id);if(!m)return;
+    h+=`<div class="banner warn"><span>⚠️</span><div class="grow"><b>${esc(m.name)}</b> (<span dir="ltr">${tm}</span>)${S.patients.length>1?' · '+esc(patOf(m).name||''):''}<br>${t('familyMiss')}</div><div class="acts"><button class="btn red sm" data-fam="${i}">${t('notifyFamily')}</button><button class="btn ghost sm" data-dis="${i}">✕</button></div></div>`});
+  S.meds.filter(isLow).forEach(m=>{h+=`<div class="banner amber"><span>🛒</span><div class="grow">${t('lowStock')} <b>${esc(m.name)}</b> (${m.stock} ${t('left')})</div><button class="btn sec sm" data-pharm="1">${t('pharmacy')}</button></div>`});
+  const soon=S.appts.filter(a=>{const x=new Date(a.date+'T'+a.time)-now;return x>0&&x<48*3600e3});
+  soon.forEach(a=>{h+=`<div class="banner info"><span>📅</span><div class="grow">${t('apptSoon')} <b>${esc(a.title)}</b> — <span dir="ltr">${a.date} ${a.time}</span> ${esc(a.place||'')}</div></div>`});
+  const sk=streak();
+  if(sk>0)h+=`<div class="card streak"><div class="n">🔥 ${sk}</div><div class="grow">${t('streak')}<br>${sk>=30?'🥇 '+t('b30'):sk>=7?'🥈 '+t('b7'):sk>=3?'🥉 '+t('b3'):''}</div></div>`;
+  h+=`<h2>${t('nextDoses')} <small style="color:var(--muted);font-weight:500">· ${t('d')[now.getDay()]}</small></h2>`;
+  const doses=dosesFor(now,false);
+  if(!doses.length&&!myMeds().some(m=>m.mode==='prn'))h+=`<div class="card empty"><div class="e-ic">💊</div>${t('noDoses')}<br><br><button class="btn" data-go="meds">${t('addMed')}</button></div>`;
+  doses.forEach(dose=>{const k=keyOf(d,dose),lg=S.log[k],m=dose.med;
+    h+=`<div class="card dose"><div class="time">${dose.time}</div><div class="ic">💊</div><div class="info"><div class="name">${esc(m.name)}</div><div class="sub">${esc(m.dose||'')} ${mealTxt(m.meal)?'· '+mealTxt(m.meal):''}</div></div>
+    ${lg?badge(lg.s):`<div class="acts"><button class="btn ok sm" data-take="${esc(k)}">✓ ${t('taken')}</button><button class="btn ghost sm" data-skip="${esc(k)}">${t('skip')}</button></div>`}</div>`});
+  myMeds().filter(m=>m.mode==='prn').forEach(m=>{
+    h+=`<div class="card dose"><div class="ic">🩹</div><div class="info"><div class="name">${esc(m.name)}</div><div class="sub">${t('prn')} · ${esc(m.dose||'')}</div></div><button class="btn sec sm" data-prn="${m.id}">${t('takeNow')}</button></div>`});
+  if(doses.length||myMeds().length)h+=`<button class="btn ghost block" id="shareBtn">${t('share')}</button>`;
+  return h;
+}
+
+function patternTxt(m){
+  if(m.mode==='prn')return t('prn');
+  const dn=(m.days&&m.days.length&&m.days.length<7)?m.days.map(i=>t('d')[i].slice(0,3)).join('، '):'';
+  return '🕒 '+m.times.join(' • ')+(dn?' — '+dn:'')+(m.every>1?' — '+t('everyN').replace('{n}',m.every):'')+(m.dur?' — '+t('forN').replace('{n}',m.dur):'');
+}
+function vMeds(){
+  let h=`<div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:6px 0">${t('meds')}</h2><button class="btn sm" id="addMed">＋ ${t('addMed')}</button></div>`;
+  if(!myMeds().length)h+=`<div class="card empty"><div class="e-ic">🧴</div>${t('medsEmpty')}</div>`;
+  myMeds().forEach(m=>{h+=`<div class="card dose" data-edit="${m.id}" style="cursor:pointer" tabindex="0" role="button">
+    ${m.photo?`<img class="thumb" src="${m.photo}" alt="">`:`<div class="ic" style="font-size:2rem">💊</div>`}
+    <div class="info"><div class="name">${esc(m.name)}</div><div class="sub">${esc(m.dose||'')} ${mealTxt(m.meal)?'· '+mealTxt(m.meal):''}</div><div class="sub" dir="auto">${patternTxt(m)}</div>
+    ${m.stock!==''&&m.stock!=null?`<div class="sub">📦 ${m.stock} ${t('left')}</div>`:''}</div><span>✏️</span></div>`});
+  return h;
+}
+
+function vVitals(){
+  const arr=vitalsOf(vt),last=arr.slice(-14);
+  let h=`<h2>${t('vitals')}</h2><div class="seg">${['bp','sugar','weight'].map(k=>`<button data-vt="${k}" aria-pressed="${vt===k}">${t('v'+k[0].toUpperCase()+k.slice(1))}</button>`).join('')}</div><div class="card">`;
+  h+=vt==='bp'?`<div class="row2"><div><label for="vA">${t('vSys')}</label><input id="vA" type="number" inputmode="numeric" min="0"></div><div><label for="vB">${t('vDia')}</label><input id="vB" type="number" inputmode="numeric" min="0"></div></div>`
+    :`<label for="vA">${vt==='sugar'?t('vSugarU'):t('vWeightU')}</label><input id="vA" type="number" inputmode="decimal" min="0" step="0.1">`;
+  h+=`<button class="btn block" style="margin-top:12px" id="addV">＋ ${t('addReading')}</button></div>`;
+  if(!arr.length)return h+`<div class="card empty">${t('noReadings')}</div>`;
+  h+=`<div class="card">${vt==='bp'?chartSvg([last.map(v=>+v.a),last.map(v=>+v.b)],['#e4572e','#0b8f87']):chartSvg([last.map(v=>+v.a)],['#0b8f87'])}</div><div class="card"><h2 style="margin-top:0">${t('latest')}</h2>`;
+  arr.slice(-8).reverse().forEach(v=>{h+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)"><span dir="ltr">${fmtD(v.ts)}</span><b dir="ltr">${vTxt(v)}</b><button class="btn ghost sm" data-delv="${v.id}" aria-label="${t('del')}">🗑</button></div>`});
+  return h+'</div>';
+}
+
+function vAppts(){
+  const now=Date.now(),ap=[...S.appts.filter(a=>a.pid===S.cur)].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  const up=ap.filter(a=>new Date(a.date+'T'+a.time)>=now-36e5),pa=ap.filter(a=>!up.includes(a)).reverse();
+  const row=a=>`<div class="card dose"><div class="ic">${a.kind==='lab'?'🧪':'🩺'}</div><div class="info"><div class="name">${esc(a.title)}</div><div class="sub" dir="auto">${a.date} · ${a.time} ${a.place?'· '+esc(a.place):''}</div></div><button class="btn ghost sm" data-dela="${a.id}" aria-label="${t('del')}">🗑</button></div>`;
+  return `<div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:6px 0">${t('appts')}</h2><button class="btn sm" id="addAppt">＋ ${t('addAppt')}</button></div>
+   ${!ap.length?`<div class="card empty"><div class="e-ic">📅</div>${t('noAppts')}</div>`:''}
+   ${up.length?`<h2>${t('upcoming')}</h2>${up.map(row).join('')}`:''}${pa.length?`<h2>${t('past')}</h2><div style="opacity:.65">${pa.map(row).join('')}</div>`:''}`;
+}
+
+function vProfile(){
+  const p=P(),bl=['','A+','A-','B+','B-','AB+','AB-','O+','O-'];
+  return `<h2>${t('profile')}</h2><div class="card">
+  <label for="pName">${t('pName')}</label><input id="pName" value="${esc(p.name)}" autocomplete="name">
+  <div class="row2"><div><label for="pAge">${t('pAge')}</label><input id="pAge" type="number" min="0" max="130" inputmode="numeric" value="${esc(p.age)}"></div><div><label for="pWeight">${t('pWeight')}</label><input id="pWeight" type="number" min="0" max="400" step="0.1" inputmode="decimal" value="${esc(p.weight)}"></div></div>
+  <label for="pBlood">${t('pBlood')}</label><select id="pBlood">${bl.map(b=>`<option value="${b}" ${p.blood===b?'selected':''}>${b||'—'}</option>`).join('')}</select>
+  <label for="pAllergy">${t('pAllergy')}</label><textarea id="pAllergy" rows="2">${esc(p.allergy)}</textarea>
+  <label for="pFam">${t('pFam')}</label><input id="pFam" value="${esc(p.fam)}">
+  <label for="pFamPhone">${t('pFamPhone')}</label><input id="pFamPhone" type="tel" dir="ltr" inputmode="tel" value="${esc(p.famPhone)}">
+  <button class="btn block" style="margin-top:14px" id="saveProfile">${t('save')}</button>
+  <button class="btn sec block" style="margin-top:8px" id="emBtn2">🚨 ${t('emergency')}</button>
+  ${S.patients.length>1?`<button class="btn red block" style="margin-top:8px" id="delPat">${t('delPatient')}</button>`:''}</div>`;
+}
+
+function vReport(){
+  const p=P(),now=new Date();let tk=0,sk=0,ms=0;const ids=new Set(myMeds().map(m=>m.id));
+  for(let i=0;i<7;i++){const dt=new Date(now);dt.setDate(now.getDate()-i);const ds=ymd(dt);
+    Object.entries(S.log).forEach(([k,v])=>{const [dd,id]=k.split('|');if(dd===ds&&ids.has(id)){v.s==='taken'?tk++:v.s==='skipped'?sk++:ms++}})}
+  const tot=tk+sk+ms,pct=tot?Math.round(tk/tot*100):0;
+  const rows=Object.entries(S.log).filter(([k])=>ids.has(k.split('|')[1])).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,60).map(([k,v])=>{
+    const [d,id,tm]=k.split('|'),m=S.meds.find(x=>x.id===id);return `<tr><td dir="ltr">${d} ${tm}</td><td>${esc(m?m.name:'—')}</td><td>${badge(v.s)}</td></tr>`}).join('');
+  const inter=findInteractions(myMeds());
+  const vit=[['bp','vBp'],['sugar','vSugar'],['weight','vWeight']].map(([k,l])=>{const a=vitalsOf(k).slice(-10);if(!a.length)return'';
+    return `<div style="margin-top:8px"><b>${t(l)}</b> — <span dir="ltr">${vTxt(a[a.length-1])}</span>${k==='bp'?chartSvg([a.map(v=>+v.a),a.map(v=>+v.b)],['#e4572e','#0b8f87']):chartSvg([a.map(v=>+v.a)],['#0b8f87'])}</div>`}).join('');
+  return `<div class="printhead">${t('reportTitle')} — ${esc(p.name||'')}</div><h2 class="noprint">${t('report')}</h2>
+  <div class="card"><h2 style="margin-top:0">🩺 ${t('patientInfo')}</h2><dl class="pid">
+   <dt>${t('pName')}</dt><dd>${esc(p.name)||t('unknown')}</dd><dt>${t('pAge')}</dt><dd>${p.age?esc(p.age)+' '+t('years'):t('unknown')}</dd>
+   <dt>${t('pWeight')}</dt><dd>${p.weight?esc(p.weight)+' '+t('kg'):t('unknown')}</dd><dt>${t('pBlood')}</dt><dd dir="ltr" style="text-align:start">${esc(p.blood)||t('unknown')}</dd>
+   <dt>${t('pAllergy')}</dt><dd>${esc(p.allergy)||'—'}</dd></dl></div>
+  ${inter.length?`<div class="banner warn"><span>⚠️</span><div class="grow"><b>${t('interact')}</b><br>${inter.map(x=>`${esc(x.a)} + ${esc(x.b)} — ${x.sev===3?'🔴':'🟠'} ${x.msg[LI[S.lang]]}`).join('<br>')}<br><small>${t('interactNote')}</small></div></div>`:''}
+  <div class="card"><h2 style="margin-top:0">${t('adherence')}</h2><div style="font-size:2rem;font-weight:800;color:var(--brand-d);text-align:center">${tot?pct+'%':'—'}</div>
+   <div class="stat"><div><b>${tk}</b><span>${t('tTaken')}</span></div><div><b>${sk}</b><span>${t('tSkipped')}</span></div><div><b>${ms}</b><span>${t('tMissed')}</span></div></div></div>
+  <div class="card"><h2 style="margin-top:0">💊 ${t('currentMeds')}</h2>${myMeds().length?myMeds().map(m=>`<div style="padding:4px 0;border-bottom:1px solid var(--line)"><b>${esc(m.name)}</b> — ${esc(m.dose||'')} ${mealTxt(m.meal)?'('+mealTxt(m.meal)+')':''} <span dir="auto">${m.mode==='prn'?t('prn'):m.times.join(', ')}</span></div>`).join(''):`<div class="empty">${t('medsEmpty')}</div>`}</div>
+  ${vit?`<div class="card"><h2 style="margin-top:0">📈 ${t('vitals')}</h2>${vit}</div>`:''}
+  <div class="card"><h2 style="margin-top:0">${t('history')}</h2>${rows?`<div class="tablewrap"><table><thead><tr><th>${t('date')}</th><th>${t('med')}</th><th>${t('status')}</th></tr></thead><tbody>${rows}</tbody></table></div>`:`<div class="empty">${t('noHistory')}</div>`}</div>
+  <div class="noprint" style="display:grid;gap:8px"><button class="btn block" id="printBtn">${t('print')}</button><button class="btn sec block" data-pharm="1">${t('pharmacy')}</button></div>`;
+}
+
+/* ================= forms & modals ================= */
+function genTimes(first,n){const step=24/n,b=toMin(first||'08:00');return Array.from({length:n},(_,i)=>{const m=(b+Math.round(i*step*60))%1440;return p2(Math.floor(m/60))+':'+p2(m%60)}).sort()}
+function medForm(id){
+  const m=S.meds.find(x=>x.id===id)||{name:'',dose:'',meal:'none',mode:'daily',freq:1,first:'08:00',times:[],days:[],every:1,dur:0,start:ymd(new Date()),stock:'',low:5,notes:'',photo:''};
+  const dc=t('d').map((n,i)=>`<label><input type="checkbox" class="dchk" value="${i}" ${(!m.days.length||m.days.includes(i))?'checked':''}>${n}</label>`).join('');
+  openModal(`<h2 style="margin-top:0">${id?t('editMed'):t('addMed')}</h2>
+  <label for="mName">${t('medName')}</label><input id="mName" list="drugs" value="${esc(m.name)}" autocomplete="off">
+  <label for="mDose">${t('dose')}</label><input id="mDose" value="${esc(m.dose)}">
+  <div class="row2"><div><label for="mMeal">${t('meal')}</label><select id="mMeal"><option value="none">${t('mealNone')}</option><option value="before" ${m.meal==='before'?'selected':''}>${t('mealBefore')}</option><option value="after" ${m.meal==='after'?'selected':''}>${t('mealAfter')}</option></select></div>
+  <div><label for="mMode">${t('mode')}</label><select id="mMode"><option value="daily">${t('mDaily')}</option><option value="prn" ${m.mode==='prn'?'selected':''}>${t('mPrn')}</option></select></div></div>
+  <div id="sched">
+   <div class="row2"><div><label for="mFreq">${t('freq')}</label><select id="mFreq">${[1,2,3,4].map(n=>`<option value="${n}" ${(m.freq||1)==n?'selected':''}>${t('f'+n)}</option>`).join('')}</select></div>
+   <div><label for="mFirst">${t('firstTime')}</label><input id="mFirst" type="time" dir="ltr" value="${m.first||'08:00'}"></div></div>
+   <p id="mTimes" dir="ltr" style="color:var(--brand-d);font-weight:700;margin:6px 0 0"></p>
+   <label>${t('days')}</label><div class="days">${dc}</div>
+   <div class="row2"><div><label for="mEvery">${t('every')}</label><input id="mEvery" type="number" min="1" inputmode="numeric" value="${m.every||1}"></div><div><label for="mDur">${t('dur')}</label><input id="mDur" type="number" min="0" inputmode="numeric" value="${m.dur||0}"></div></div>
+   <label for="mStart">${t('start')}</label><input id="mStart" type="date" value="${m.start}"></div>
+  <div class="row2"><div><label for="mStock">${t('stock')}</label><input id="mStock" type="number" min="0" inputmode="numeric" value="${esc(m.stock)}"></div><div><label for="mLow">${t('low')}</label><input id="mLow" type="number" min="0" inputmode="numeric" value="${esc(m.low)}"></div></div>
+  <label for="mNotes">${t('notes')}</label><textarea id="mNotes" rows="2">${esc(m.notes)}</textarea>
+  <label for="mPhoto">${t('photo')}</label><input id="mPhoto" type="file" accept="image/*" capture="environment">
+  <div id="pPrev">${m.photo?`<img class="thumb" style="width:90px;height:90px;margin-top:8px" src="${m.photo}" alt="">`:''}</div>
+  <button class="btn sec block" id="ocrBtn" style="margin-top:8px;display:${m.photo?'block':'none'}">${t('scan')}</button><div id="ocrOut" class="sub" style="margin-top:6px"></div>
+  <div style="display:grid;gap:8px;margin-top:16px"><button class="btn block" id="mSave">${t('save')}</button><div class="row2"><button class="btn ghost" id="mCancel">${t('cancel')}</button>${id?`<button class="btn red" id="mDel">${t('del')}</button>`:'<span></span>'}</div></div>`);
+  let photo=m.photo||'';
+  const upd=()=>{$('#mTimes').textContent='🕒 '+genTimes($('#mFirst').value,+$('#mFreq').value).join('  •  ');$('#sched').style.display=$('#mMode').value==='prn'?'none':'block'};
+  $('#mFreq').onchange=upd;$('#mFirst').oninput=upd;$('#mMode').onchange=upd;upd();
+  $('#mPhoto').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{
+    const sc=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*sc;c.height=im.height*sc;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    photo=c.toDataURL('image/jpeg',.7);$('#pPrev').innerHTML=`<img class="thumb" style="width:90px;height:90px;margin-top:8px" src="${photo}" alt="">`;$('#ocrBtn').style.display='block'};im.src=r.result};r.readAsDataURL(f)};
+  $('#ocrBtn').onclick=async()=>{
+    const out=$('#ocrOut');out.textContent=t('scanning');
+    try{
+      if(!window.Tesseract)await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+      const r=await Tesseract.recognize(photo,'eng+fra'),txt=r.data.text.toLowerCase();
+      const found=DB.filter(d=>d.al.some(a=>/^[a-z\u00e0-\u00ff ]+$/.test(a)&&a.length>=4&&txt.includes(a)));
+      out.innerHTML=found.length?t('scanFound')+'<div class="acts" style="margin-top:6px">'+found.map(d=>`<button class="btn sec sm" data-pick="${esc(d.al[0])}">${esc(d.al[0])}</button>`).join('')+'</div>':t('scanNone');
+      out.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{$('#mName').value=b.dataset.pick;out.textContent='✓'});
+    }catch(e){out.textContent=t('scanErr')}
+  };
+  $('#mCancel').onclick=closeModal;
+  if(id)$('#mDel').onclick=()=>{if(confirm(t('confirmDel'))){S.meds=S.meds.filter(x=>x.id!==id);save();closeModal();render()}};
+  $('#mSave').onclick=()=>{
+    const name=$('#mName').value.trim();if(!name){$('#mName').focus();return}
+    const mode=$('#mMode').value,days=[...document.querySelectorAll('.dchk')].filter(c=>c.checked).map(c=>+c.value),freq=+$('#mFreq').value,first=$('#mFirst').value||'08:00';
+    const rec={id:id||'m'+uid(),pid:m.pid||S.cur,name,dose:$('#mDose').value.trim(),meal:$('#mMeal').value,mode,freq,first,times:mode==='prn'?[]:genTimes(first,freq),days:days.length===7?[]:days,
+      every:Math.max(1,+$('#mEvery').value||1),dur:Math.max(0,+$('#mDur').value||0),start:$('#mStart').value||ymd(new Date()),stock:$('#mStock').value,low:$('#mLow').value||5,notes:$('#mNotes').value.trim(),photo};
+    id?S.meds=S.meds.map(x=>x.id===id?rec:x):S.meds.push(rec);
+    save();closeModal();render();toast('✓ '+t('saved'));
+  };
+}
+function apptForm(){
+  const dt=new Date();dt.setDate(dt.getDate()+1);
+  openModal(`<h2 style="margin-top:0">${t('addAppt')}</h2>
+  <label for="aT">${t('aTitle')}</label><input id="aT"><label for="aK">${t('aKind')}</label><select id="aK"><option value="doctor">${t('aDoctor')}</option><option value="lab">${t('aLab')}</option></select>
+  <div class="row2"><div><label for="aD">${t('aDate')}</label><input id="aD" type="date" value="${ymd(dt)}"></div><div><label for="aH">${t('aTime')}</label><input id="aH" type="time" value="09:00" dir="ltr"></div></div>
+  <label for="aP">${t('aPlace')}</label><input id="aP"><label for="aR">${t('aRemind')}</label><select id="aR"><option value="60">${t('r1h')}</option><option value="180">${t('r3h')}</option><option value="1440" selected>${t('r1d')}</option></select>
+  <div class="row2" style="margin-top:16px"><button class="btn ghost" id="aC">${t('cancel')}</button><button class="btn" id="aS">${t('save')}</button></div>`);
+  $('#aC').onclick=closeModal;
+  $('#aS').onclick=()=>{const title=$('#aT').value.trim()||($('#aK').value==='lab'?t('aLab'):t('aDoctor'));
+    S.appts.push({id:uid(),pid:S.cur,title,kind:$('#aK').value,date:$('#aD').value,time:$('#aH').value||'09:00',place:$('#aP').value.trim(),remind:+$('#aR').value,notified:false});
+    save();closeModal();render();toast('✓ '+t('saved'))};
+}
+function patientsModal(){
+  openModal(`<h2 style="margin-top:0">${t('patients')}</h2><div style="display:grid;gap:8px">${S.patients.map(p=>`<button class="btn ${p.id===S.cur?'':'ghost'} block" data-sw="${p.id}">👤 ${esc(p.name||t('newPatient'))}</button>`).join('')}
+  <button class="btn sec block" id="newPat">${t('addPatient')}</button></div>`);
+  document.querySelectorAll('[data-sw]').forEach(b=>b.onclick=()=>{S.cur=b.dataset.sw;save();closeModal();render()});
+  $('#newPat').onclick=()=>{const id='p'+uid();S.patients.push({id,name:''});S.cur=id;save();closeModal();tab='profile';render()};
+}
+function emergencyModal(){
+  const p=P(),ms=myMeds().map(m=>m.name+(m.dose?' ('+m.dose+')':'')).join('، ')||'—',ph=(p.famPhone||'').replace(/\D/g,'');
+  openModal(`<h2 style="margin-top:0;color:var(--warn)">🚨 ${t('emergency')}</h2><div class="blood">${esc(p.blood)||'?'}</div><div class="sub" style="text-align:center">${t('pBlood')}</div>
+  <dl class="pid" style="margin-top:10px"><dt>${t('pName')}</dt><dd>${esc(p.name)||'—'}</dd><dt>${t('pAge')}</dt><dd>${esc(p.age)||'—'}</dd><dt>${t('pWeight')}</dt><dd>${esc(p.weight)||'—'}</dd>
+  <dt>${t('pAllergy')}</dt><dd>${esc(p.allergy)||'—'}</dd><dt>${t('meds')}</dt><dd>${esc(ms)}</dd><dt>${t('pFam')}</dt><dd>${esc(p.fam)||'—'} <span dir="ltr">${esc(p.famPhone)}</span></dd></dl>
+  <div style="display:grid;gap:8px;margin-top:14px">${ph?`<a class="btn red block" style="text-align:center;text-decoration:none;display:block;line-height:22px" href="tel:+${ph}">${t('call')}</a>`:''}
+  <button class="btn sec block" id="emImg">${t('saveImg')}</button><button class="btn ghost block" id="emClose">${t('cancel')}</button></div>`);
+  $('#emClose').onclick=closeModal;
+  $('#emImg').onclick=()=>{
+    const c=document.createElement('canvas');c.width=1080;c.height=1920;const x=c.getContext('2d');
+    x.fillStyle='#fff';x.fillRect(0,0,1080,1920);x.fillStyle='#e4572e';x.fillRect(0,0,1080,230);
+    x.textAlign='center';x.direction=S.lang==='ar'?'rtl':'ltr';x.fillStyle='#fff';x.font='bold 90px sans-serif';x.fillText('🚨 '+t('emergency'),540,150);
+    x.fillStyle='#e4572e';x.font='bold 220px sans-serif';x.fillText(p.blood||'?',540,480);
+    x.fillStyle='#14343a';x.font='bold 70px sans-serif';
+    let y=620;const line=(lb,v,big)=>{x.fillStyle='#5d7a7f';x.font='42px sans-serif';x.fillText(lb,540,y);y+=70;x.fillStyle='#14343a';x.font='bold '+(big?78:58)+'px sans-serif';
+      const words=String(v||'—').split(' ');let cur='';words.forEach(w=>{if(x.measureText(cur+' '+w).width>940){x.fillText(cur,540,y);y+=70;cur=w}else cur=(cur?cur+' ':'')+w});x.fillText(cur,540,y);y+=110};
+    line(t('pName'),p.name,true);line(t('pAge')+' / '+t('pWeight'),(p.age||'—')+' / '+(p.weight||'—'));line(t('pAllergy'),p.allergy);line(t('meds'),ms);line(t('pFam'),(p.fam||'')+' '+(p.famPhone||''));
+    c.toBlob(b=>down('sahati-emergency.png',b));
+  };
+}
+function settingsModal(){
+  openModal(`<h2 style="margin-top:0">⚙️ ${t('settings')}</h2>
+  <label for="sL">${t('language')}</label><select id="sL"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select>
+  <label for="sT">${t('theme')}</label><select id="sT"><option value="auto">${t('tAuto')}</option><option value="light">${t('tLight')}</option><option value="dark">${t('tDark')}</option></select>
+  <label for="sTone">${t('tone')}</label><div class="row2"><select id="sTone"><option value="bell">${t('tBell')}</option><option value="digital">${t('tDigital')}</option><option value="melody">${t('tMelody')}</option></select><button class="btn sec" id="sTest">▶ ${t('test')}</button></div>
+  <label class="days" style="display:flex;gap:8px;margin-top:10px;border:0;padding:0"><input type="checkbox" id="sV" style="width:auto;min-height:0" ${S.voice?'checked':''}> ${t('voice')}</label>
+  <label class="days" style="display:flex;gap:8px;border:0;padding:0"><input type="checkbox" id="sB" style="width:auto;min-height:0" ${S.big?'checked':''}> ${t('bigText')}</label>
+  <h2>${t('backup')}</h2><div class="row2"><button class="btn sec" id="sExp">${t('export')}</button><button class="btn sec" id="sImp">${t('import')}</button></div><input type="file" id="sFile" accept="application/json,.json" hidden>
+  <div style="margin-top:12px">${deferred?`<button class="btn block" id="sInst">${t('install')}</button>`:`<p class="sub">${t('installIos')}</p>`}</div>
+  <button class="btn ghost block" style="margin-top:14px" id="sClose">${t('cancel')}</button>`);
+  $('#sL').value=S.lang;$('#sT').value=S.theme;$('#sTone').value=S.tone;
+  $('#sL').onchange=e=>{S.lang=e.target.value;save();settingsModal();render()};
+  $('#sT').onchange=e=>{S.theme=e.target.value;save();render()};
+  $('#sTone').onchange=e=>{S.tone=e.target.value;save();beep()};$('#sTest').onclick=()=>{beep();speak(VOICE[S.lang][1]+' '+(myMeds()[0]?myMeds()[0].name:'Sahati'))};
+  $('#sV').onchange=e=>{S.voice=e.target.checked;save()};$('#sB').onchange=e=>{S.big=e.target.checked;save();render()};
+  $('#sExp').onclick=()=>down('sahati-backup-'+ymd(new Date())+'.json',new Blob([JSON.stringify(S)],{type:'application/json'}));
+  $('#sImp').onclick=()=>$('#sFile').click();
+  $('#sFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(!Array.isArray(o.meds)||!o.log)throw 0;
+    if(!confirm(t('importAsk')))return;S=Object.assign({},DEF,o);if(!S.patients||!S.patients.length){S.patients=[Object.assign({id:'p1'},o.profile||{})];S.cur='p1';S.meds.forEach(m=>m.pid='p1')}
+    if(!S.patients.find(p=>p.id===S.cur))S.cur=S.patients[0].id;save();closeModal();render();toast('✓ '+t('importOk'))}catch(x){toast(t('importBad'))}};r.readAsText(f)};
+  const si=$('#sInst');if(si)si.onclick=()=>{deferred.prompt();deferred=null;closeModal()};
+  $('#sClose').onclick=closeModal;
+}
+function shareStatus(){
+  const now=new Date(),d=ymd(now),dz=dosesFor(now,false),p=P();
+  const done=dz.filter(x=>(S.log[keyOf(d,x)]||{}).s==='taken'),pend=dz.filter(x=>!S.log[keyOf(d,x)]);
+  const txt=`💊 ${t('summary')} — ${p.name||''} (${d})\n✅ ${done.length}/${dz.length}\n`+(pend.length?`⏳ ${t('pendingW')}: `+pend.map(x=>x.med.name+' '+x.time).join('، '):'');
+  if(navigator.share)navigator.share({text:txt}).catch(()=>{});
+  else{const ph=(p.famPhone||'').replace(/\D/g,'');window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(txt),'_blank','noopener')}
+}
+
+/* ================= events ================= */
+function bind(){
+  const q=(s,f)=>document.querySelectorAll(s).forEach(f);
+  q('[data-take]',b=>b.onclick=()=>{const k=b.dataset.take;setStatus(k,'taken');render();const m=S.meds.find(x=>x.id===k.split('|')[1]);m&&lowToast(m)});
+  q('[data-skip]',b=>b.onclick=()=>{setStatus(b.dataset.skip,'skipped');render()});
+  q('[data-prn]',b=>b.onclick=()=>{const n=new Date(),m=S.meds.find(x=>x.id===b.dataset.prn);setStatus(ymd(n)+'|'+m.id+'|'+p2(n.getHours())+':'+p2(n.getMinutes()),'taken');toast('✓ '+m.name);lowToast(m);render()});
+  q('[data-go]',b=>b.onclick=()=>{tab=b.dataset.go;render()});
+  q('[data-pharm]',b=>b.onclick=()=>window.open('https://www.google.com/maps/search/'+({ar:'صيدلية+قريبة',fr:'pharmacie+à+proximité',en:'pharmacy+near+me'})[S.lang],'_blank','noopener'));
+  q('[data-fam]',b=>b.onclick=()=>{const i=+b.dataset.fam,k=S.alerts[i],[,id,tm]=k.split('|'),m=S.meds.find(x=>x.id===id),p=m?patOf(m):P();
+    const ph=(p.famPhone||'').replace(/\D/g,'');if(!ph){toast(t('noFamily'));S.cur=p.id;tab='profile';render();return}
+    window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(FAM[S.lang](p.name,m?m.name:'',tm)),'_blank','noopener');S.alerts.splice(i,1);save();render()});
+  q('[data-dis]',b=>b.onclick=()=>{S.alerts.splice(+b.dataset.dis,1);save();render()});
+  q('[data-edit]',b=>{b.onclick=()=>medForm(b.dataset.edit);b.onkeydown=e=>{if(e.key==='Enter')medForm(b.dataset.edit)}});
+  q('[data-vt]',b=>b.onclick=()=>{vt=b.dataset.vt;render()});
+  q('[data-delv]',b=>b.onclick=()=>{S.vitals=S.vitals.filter(v=>v.id!==b.dataset.delv);save();render()});
+  q('[data-dela]',b=>b.onclick=()=>{if(confirm(t('confirmDel'))){S.appts=S.appts.filter(a=>a.id!==b.dataset.dela);save();render()}});
+  const on=(s,f)=>{const e=$(s);if(e)e.onclick=f};
+  on('#addMed',()=>medForm());on('#addAppt',apptForm);on('#shareBtn',shareStatus);on('#printBtn',()=>window.print());on('#emBtn2',emergencyModal);
+  on('#notifBtn',()=>Notification.requestPermission().then(render));
+  on('#addV',()=>{const a=$('#vA').value,b=vt==='bp'?$('#vB').value:'';if(!a||(vt==='bp'&&!b))return;
+    S.vitals.push({id:uid(),pid:S.cur,type:vt,ts:Date.now(),a,b});if(vt==='weight')P().weight=a;save();render();toast('✓ '+t('saved'))});
+  on('#delPat',()=>{if(!confirm(t('confirmDel')))return;const id=S.cur;S.patients=S.patients.filter(p=>p.id!==id);S.meds=S.meds.filter(m=>m.pid!==id);S.vitals=S.vitals.filter(v=>v.pid!==id);S.appts=S.appts.filter(a=>a.pid!==id);S.cur=S.patients[0].id;save();render()});
+  on('#saveProfile',()=>{Object.assign(P(),{name:$('#pName').value.trim(),age:$('#pAge').value,weight:$('#pWeight').value,blood:$('#pBlood').value,allergy:$('#pAllergy').value.trim(),fam:$('#pFam').value.trim(),famPhone:$('#pFamPhone').value.trim()});save();render();toast('✓ '+t('saved'))});
+}
+$('#patBtn').onclick=patientsModal;$('#emBtn').onclick=emergencyModal;$('#setBtn').onclick=settingsModal;
+document.addEventListener('click',()=>{try{actx=actx||new (window.AudioContext||window.webkitAudioContext)()}catch(e){}},{once:true});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>S.theme==='auto'&&applyTheme());
+let prevTh;window.addEventListener('beforeprint',()=>{prevTh=document.documentElement.dataset.theme;document.documentElement.dataset.theme='light'});
+window.addEventListener('afterprint',()=>{document.documentElement.dataset.theme=prevTh});
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(async r=>{
+  try{if(r.periodicSync)await r.periodicSync.register('sahati-check',{minInterval:15*60*1000})}catch(e){}
+  navigator.serviceWorker.ready.then(()=>pushSchedule())}).catch(()=>{}));
+render();tick();setTimeout(initNative,800);
+</script>
+</body>
+</html>

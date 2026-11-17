@@ -1,0 +1,18 @@
+{
+  "name": "صحتي | Sahati",
+  "short_name": "صحتي",
+  "description": "منظّم أدويتك | Votre pilulier | Your medication reminder",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2fbf9",
+  "theme_color": "#0b8f87",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
